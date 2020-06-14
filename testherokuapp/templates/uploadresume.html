@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="/userdetail" method="post" enctype="multipart/form-data">
+ {%csrf_token%}
+<table border=0 width="100%">
+<tr><td align="center">
+<table width="50%" frame="box">
+<th bgcolor="33ADFF" align="left">
+<p >&nbsp;&nbsp;&nbsp;&nbsp;Upload Resume</p>
+</th>
+<tr>
+</tr>
+<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;Choose a file:</td>
+</tr>
+<tr bgcolor="">
+<td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="file" name="filename" id="filename" required >
+ <br>
+    {% for message in messages %}
+        {% if "email" in message.extra_tags %}
+        <div>
+         <h5><i><font color="red"><code> {{message}} </code></font></i></h5>
+        </div>
+        {% endif %}
+    {% endfor %}
+
+ <br>
+ <h5>File size should not exceed 5MB and should be doc file</h5></td>
+</tr>
+ <tr>
+ <td align="center">
+  <input type="submit" name="action" value="Submit" style="background-color: lightblue"
+   onclick="return Checkfiles()";>
+</td>
+</tr>
+</table>
+</td></tr></table>
+ <br>
+
+ <center>
+     {% for message in messages %}
+        {% if "resumeformat" in message.extra_tags %}
+        <div>
+         <h3><i><font color="red"><code> {{message}} </code></font></i></h3>
+        </div>
+        {% endif %}
+     {% endfor %}
+
+ <br>
+        <div>
+            <a href="/resumetemplate">Need help Click the below link for the resume format</a>
+        </div>
+ </center>
+
+</form>
+ <script type="text/javascript">
+   function Checkfiles()
+    {
+        var fup = document.getElementById('filename');
+        var fileName = fup.value;
+        var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+        var oFile = document.getElementById("filename").files[0];
+    if(ext=="docx" || ext=="DOCX")
+    {
+        if(oFile.size > 1 && oFile.size<= 5242880)
+        {
+         console.log ("File uploaded successfully")
+
+        return true;
+        }
+        else
+        {
+        alert("File size must be less than 5Mb!");
+        return false;
+        }
+    }
+    else
+    {
+        alert("Upload Docx files only");
+        return false;
+
+    }
+    }
+</script>
+</body>
+</html>

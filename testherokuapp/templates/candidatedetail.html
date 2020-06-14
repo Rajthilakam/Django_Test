@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript">
+    function onSubmitDetail(){
+            if(document.getElementById("firstname").value == ""){
+                document.getElementById("firstname_error").innerHTML = "First name must be entered";
+            }else{
+                document.getElementById("firstname_error").innerHTML = "";
+            }
+
+            if(document.getElementById("lastname").value == ""){
+                document.getElementById("lastname_error").innerHTML = "Last name must be entered";
+            }else{
+                document.getElementById("lastname_error").innerHTML = "";
+            }
+
+            if(document.getElementById("contactdetails").value != ""){
+                if(phonenumber(document.getElementById("cDetail"))){
+                    document.getElementById("contactdetails_error").innerHTML = "";
+                }else{
+                    document.getElementById("contactdetails_error").innerHTML = "Phone number must be numeric and in xxx-xxx-xxxx format";
+                    }
+            }else{
+                document.getElementById("contactdetails_error").innerHTML = "";
+            }
+
+            if(document.getElementById("emailid").value == ""){
+                document.getElementById("emailid_error").innerHTML = "Email must be entered";
+            }else{
+                if(checkemail()){
+                    document.getElementById("emailid_error").innerHTML = "";
+                }else{
+                    document.getElementById("emailid_error").innerHTML ="Please input a valid email address!";
+                }
+            }
+
+    }
+
+ var isValidMail = false;
+    function checkemail(){
+        var str = document.getElementById("emailid").value;
+        var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+        if (filter.test(str))
+            isValidMail = true
+        else {
+            isValidMail = false;
+        }
+        return isValidMail;
+    }
+
+    function phonenumber(inputtxt)
+    {
+        var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+        if((inputtxt.value.match(phoneno))){
+            return true;
+        }else{
+            return false;
+        }
+}
+
+
+    </script>
+</head>
+<body>
+
+<table align="center" width="60%">
+    <tr>
+        <td align="center" bgcolor="33ADFF"><b><h1>User Profile</h1></b></td>
+    </tr>
+</table>
+
+<form method="post" class="post-form" action="/update_candidateDetail/{{candidateDetail.id}}"  enctype="multipart/form-data" >{% csrf_token %}
+<table align="center" width="60%">
+    <tr>
+        <td>
+            <fieldset style="border:1px solid black">
+        <legend><b>Candidate Details:</b></legend>
+                <table align="center" style="margin:0,100" width="80%" class="names">
+                     <tr bgcolor="">
+                        <td><b>Candidate ID:<font color="red"></font></b></td>
+                        <td>
+                            {{candidateDetail.id}}
+
+                            <input type="hidden" id='id' value='{{candidateDetail.id}}' name='id'/>
+                            <br>
+        </td>
+                    </tr>
+                    <tr bgcolor="lightblue">
+                        <td><b>First Name:<font color="red">*</font></b></td>
+                        <td>
+                            <input type="text" id="firstname" value='{{candidateDetail.firstname}}' name="firstname"/>
+                            <div id="fname_error" style="color :red; font-size: 14px;font-weight: bold;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 with="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Last Name:<font color="red">*</font></b></td>
+                        <td><input type="text" id="lastname" name="lastname" value='{{candidateDetail.lastname}}'/>
+                            <div id="lname_error" style="color :red; font-size: 14px;font-weight: bold;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 with="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr bgcolor="lightblue">
+                        <td><b>Contact Details:</b></td>
+                        <td><input type="text" id="contactdetails" name="contactdetails" placeholder="XXX-XXX-XXXX" value='{{candidateDetail.contactdetails}}' maxlength=12/>
+                            <div id="cdetail_error" style="color :red; font-size: 14px;font-weight: bold;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 with="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Email ID:<font color="red">*</font></b></td>
+                        <td><input type="email" name="emailid" id="emailid" value='{{candidateDetail.emailid}}'/>
+                            <div id="email_error" style="color :red; font-size: 14px;font-weight: bold;"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 with="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr bgcolor="lightblue">
+                        <td><b>Address Details:</b></td>
+                        <td><input type="text" id="addressdetails" name="addressdetails" value='{{candidateDetail.addressdetails}}'/></td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 with="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Work Experience:</b></td>
+                        <td><input type="text" id="workexperience"  name="workexperience" value='{{candidateDetail.workexperience}}'/></td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 with="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr bgcolor="lightblue">
+                        <td><b>Visa Status:</b></td>
+                        <td>
+                            <input type="text" id="visastatus"  name="visastatus" value='{{candidateDetail.visastatus}}'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 width="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Work Permit:</b></td>
+                        <td id="wPermit">
+                            <input type="text" id="workpermit" name="workpermit" value='{{candidateDetail.workpermit}}'/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 width="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr bgcolor="lightblue">
+                        <td><b>Ready to Relocate:</b></td>
+                        <td id="yy">
+                            <input type="text" id="readytorelocate" name="readytorelocate" value= '{{candidateDetail.readytorelocate}}'/>                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan=4 width="80%">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Technologies:</b></td>
+                        <td colspan=4 id="skill">
+                            <textarea cols="20" rows="4" id="technology" name="technology" width="20%" height="20%" >{{candidateDetail.technology}}</textarea>
+                        </td>
+                    </tr>
+                </table>
+                </br></br>
+                <table width="80%">
+                    <tr>
+                        <td width="70%" style="color :red; font-size: 14px;font-weight: bold;">&nbsp;* Required fields
+                        </td>
+                        <td><input type="submit" style="background-color: lightblue" id="edit" value="Submit"
+                                   onClick="return()";></td>
+                    </tr>
+                </table>
+
+            </fieldset>
+        </td>
+    </tr>
+</table>
+</form>
+</body>
+</html>
